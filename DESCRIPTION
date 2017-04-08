@@ -1,0 +1,14 @@
+Package: docuSignr
+Title: Connect to 'DocuSign' API
+Version: 0.0.0.9000
+Authors@R: c(
+  person("Carl", "Ganz", email = "carl@cannadatasolutions.com", role = c("aut", "cre")),
+  person("CannaData Solutions", role = "cph")
+  )
+Description: Connect to the 'DocuSign' API, which allows users to legally sign documents.
+  Also provides 'Shiny' integration.
+Depends: R (>= 3.2.2)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: httr
