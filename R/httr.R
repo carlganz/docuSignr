@@ -1,7 +1,7 @@
 #' Authenticate DocuSign
 #'
 #' Login to DocuSign and get baseURL and accountId
-#' 
+#'
 #' @export
 #' @import httr jsonlite XML
 #' @importFrom magrittr %>%
@@ -10,9 +10,9 @@
 #' @param integrator_key docusign integratorKey
 
 docu_login <-
-  function(username = Sys.getenv(),
-           password = Sys.getenv(),
-           integrator_key = Sys.getenv()) {
+  function(username = Sys.getenv("docuSign_username"),
+           password = Sys.getenv("docuSign_password"),
+           integrator_key = Sys.getenv("docuSign_integrator_key")) {
     # XML for authentication
     auth <- docu_auth(username, password, integrator_key)
     
@@ -32,7 +32,7 @@ docu_login <-
 #' Create document for particular instance to be signed
 #'
 #' Does envelope stuff
-#' 
+#'
 #' @export
 #' @inheritParams docu_login
 #' @param account_id docuSign accountId
@@ -43,9 +43,9 @@ docu_login <-
 #' @param email_blurb docuSign emailBlurb
 
 docu_envelope <-
-  function(username = Sys.getenv(),
-           password = Sys.getenv(),
-           integrator_key = Sys.getenv(),
+  function(username = Sys.getenv("docuSign_username"),
+           password = Sys.getenv("docuSign_password"),
+           integrator_key = Sys.getenv("docuSign_integrator_key"),
            account_id,
            base_url,
            template_id,
@@ -56,22 +56,32 @@ docu_envelope <-
     auth <- docu_auth(username, password, integrator_key)
     
     # request body
-    body <- list(
-      status = "created",
-      accountId = account_id,
-      templateId = template_id,
-      emailSubject = email_subject,
-      emailBlurb = email_blurb,
-      templateRoles = I(template_roles)
-    ) %>%
-      jsonlite::toJSON(auto_unbox = TRUE)
+    body <- 
+      sprintf(
+        '{"accountId": "%s",
+        "status" : "created",
+        "emailSubject" : "%s",
+        "emailBlurb": "%s",
+        "templateId": "%s",
+        "templateRoles": [{
+          "email" : "%s",
+          "name": "%s",
+          "roleName": "%s" }] }',
+        account_id,
+        email_subject,
+        email_blurb,
+        template_id,
+        template_roles$email,
+        template_roles$name,
+        template_roles$roleName
+      )
     
-    url <- httr::modify_url(base_url, "/envelopes")
+    url <- paste0(base_url, "/envelopes")
     
     header <- docu_header(auth)
     
     resp <- httr::POST(url, header, body = body)
-    
+
     parsed <- parse_response(resp)
     
     parsed
@@ -91,9 +101,9 @@ docu_envelope <-
 #' @param uri docuSign uri
 #'
 
-docu_embed <- function(username = Sys.getenv(),
-                       password = Sys.getenv(),
-                       integrator_key = Sys.getenv(),
+docu_embed <- function(username = Sys.getenv("docuSign_username"),
+                       password = Sys.getenv("docuSign_password"),
+                       integrator_key = Sys.getenv("docuSign_integrator_key"),
                        base_url,
                        return_url,
                        signer_name,
@@ -113,10 +123,9 @@ docu_embed <- function(username = Sys.getenv(),
   
   header <- docu_header(auth)
   
-  url <- httr::modify_url(base_url,
-                          paste0(uri, "/views/sender"))
+  url <- paste0(base_url, uri, "/views/sender")
   
-  res <- httr::POST(url, header, body = body)
+  res <- httr::POST(url, header, body = body, encode = "json")
   
   parsed <- parse_response(res)
   
@@ -130,8 +139,8 @@ docu_embed <- function(username = Sys.getenv(),
 
 parse_response <- function(response) {
   parsed <- response %>%
-    httr::content(type = "text") %>%
-    jsonlite::fromJSON(FALSE)
+    httr::content(type = "text", encoding = "UTF-8") %>%
+    jsonlite::fromJSON()
   
   # parse errors
   if (http_error(response)) {
@@ -149,24 +158,31 @@ parse_response <- function(response) {
   }
 }
 
+#' Create XML authentication string
+#'
+#' @inheritParams docu_login
+
+docu_auth <- function(username = Sys.getenv("docuSign_username"),
+                      password = Sys.getenv("docuSign_password"),
+                      integrator_key = Sys.getenv("docuSign_integrator_key")) {
+  sprintf(
+    "<DocuSignCredential>
+    <Username>%s</Username>
+    <Password>%s</Password>
+    <IntegratorKey>%s</IntegratorKey>
+    </DocuSignCredential>",
+    username,
+    password,
+    integrator_key
+  )
+}
+
 #' Create header for docuSign
-#' 
+#'
 #' Create header for authentication with docuSign
 #' @param auth XML object with authentication info
 
 docu_header <- function(auth) {
   httr::add_headers('X-DocuSign-Authentication' = auth,
                     'Accept' = 'application/json')
-}
-
-#' Create XML authentication string
-#' 
-#' @inheritParams docu_login
-
-docu_auth <- function(username, password, integrator_key) {
-  auth <- XML::newXMLNode("DocuSignCredentials")
-  XML::newXMLNode("Username", username, parent = auth)
-  XML::newXMLNode("Password", password, parent = auth)
-  XML::newXMLNode("IntegratorKey", integrator_key, parent = auth)
-  return(auth)
 }
