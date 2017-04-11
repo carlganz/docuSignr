@@ -4,8 +4,9 @@
 \alias{docu_login}
 \title{Authenticate DocuSign}
 \usage{
-docu_login(username = Sys.getenv(), password = Sys.getenv(),
-  integrator_key = Sys.getenv())
+docu_login(username = Sys.getenv("docuSign_username"),
+  password = Sys.getenv("docuSign_password"),
+  integrator_key = Sys.getenv("docuSign_integrator_key"))
 }
 \arguments{
 \item{username}{docuSign username}

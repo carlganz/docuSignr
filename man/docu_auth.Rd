@@ -4,7 +4,9 @@
 \alias{docu_auth}
 \title{Create XML authentication string}
 \usage{
-docu_auth(username, password, integrator_key)
+docu_auth(username = Sys.getenv("docuSign_username"),
+  password = Sys.getenv("docuSign_password"),
+  integrator_key = Sys.getenv("docuSign_integrator_key"))
 }
 \arguments{
 \item{username}{docuSign username}

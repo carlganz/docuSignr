@@ -4,9 +4,10 @@
 \alias{docu_envelope}
 \title{Create document for particular instance to be signed}
 \usage{
-docu_envelope(username = Sys.getenv(), password = Sys.getenv(),
-  integrator_key = Sys.getenv(), account_id, base_url, template_id,
-  template_roles, email_subject, email_blurb)
+docu_envelope(username = Sys.getenv("docuSign_username"),
+  password = Sys.getenv("docuSign_password"),
+  integrator_key = Sys.getenv("docuSign_integrator_key"), account_id,
+  base_url, template_id, template_roles, email_subject, email_blurb)
 }
 \arguments{
 \item{username}{docuSign username}

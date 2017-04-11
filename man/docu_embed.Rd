@@ -4,9 +4,10 @@
 \alias{docu_embed}
 \title{Embedded docuSign}
 \usage{
-docu_embed(username = Sys.getenv(), password = Sys.getenv(),
-  integrator_key = Sys.getenv(), base_url, return_url, signer_name,
-  client_user_id, uri)
+docu_embed(username = Sys.getenv("docuSign_username"),
+  password = Sys.getenv("docuSign_password"),
+  integrator_key = Sys.getenv("docuSign_integrator_key"), base_url,
+  return_url, signer_name, client_user_id, uri)
 }
 \arguments{
 \item{username}{docuSign username}
