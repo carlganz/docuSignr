@@ -14,10 +14,7 @@ docu_login <-
            password = Sys.getenv(),
            integrator_key = Sys.getenv()) {
     # XML for authentication
-    auth <- XML::newXMLNode("DocuSignCredentials")
-    XML::newXMLNode("Username", username, parent = auth)
-    XML::newXMLNode("Password", password, parent = auth)
-    XML::newXMLNode("IntegratorKey", integrator_key, parent = auth)
+    auth <- docu_auth(username, password, integrator_key)
     
     url <- 'https://demo.docusign.net/restapi/v2/login_information'
     
@@ -56,10 +53,7 @@ docu_envelope <-
            email_subject,
            email_blurb) {
     # XML for authentication
-    auth <- XML::newXMLNode("DocuSignCredentials")
-    XML::newXMLNode("Username", username, parent = auth)
-    XML::newXMLNode("Password", password, parent = auth)
-    XML::newXMLNode("IntegratorKey", integrator_key, parent = auth)
+    auth <- docu_auth(username, password, integrator_key)
     
     # request body
     body <- list(
@@ -106,10 +100,7 @@ docu_embed <- function(username = Sys.getenv(),
                        client_user_id,
                        uri) {
   # XML for authentication
-  auth <- XML::newXMLNode("DocuSignCredentials")
-  XML::newXMLNode("Username", username, parent = auth)
-  XML::newXMLNode("Password", password, parent = auth)
-  XML::newXMLNode("IntegratorKey", integrator_key, parent = auth)
+  auth <- docu_auth(username, password, integrator_key)
   
   # request body
   body <- list(
@@ -166,4 +157,16 @@ parse_response <- function(response) {
 docu_header <- function(auth) {
   httr::add_headers('X-DocuSign-Authentication' = auth,
                     'Accept' = 'application/json')
+}
+
+#' Create XML authentication string
+#' 
+#' @inheritParams docu_login
+
+docu_auth <- function(username, password, integrator_key) {
+  auth <- XML::newXMLNode("DocuSignCredentials")
+  XML::newXMLNode("Username", username, parent = auth)
+  XML::newXMLNode("Password", password, parent = auth)
+  XML::newXMLNode("IntegratorKey", integrator_key, parent = auth)
+  return(auth)
 }
