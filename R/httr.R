@@ -26,7 +26,7 @@ docu_login <-
     
     parsed <- parse_response(resp)
     
-    parsed
+    parsed$loginAccounts
   }
 
 #' Create document for particular instance to be signed
