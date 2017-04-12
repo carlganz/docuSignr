@@ -149,7 +149,7 @@ parse_response <- function(response) {
         "DocuSign API request failed [%s]\n%s\n<%s>",
         status_code(response),
         parsed$message,
-        parsed$documentation_url
+        parsed$errorCode
       ),
       call. = FALSE
     )
