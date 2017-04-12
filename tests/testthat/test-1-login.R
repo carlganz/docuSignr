@@ -6,8 +6,8 @@ test_that("Environmental vars exist", {
   expect_true(Sys.getenv("docuSign_integrator_key")!="")
 })
 
-test_that("Login doesn't error", {
-  expect_silent(login <- docu_login())
+test_that("Login works doesn't error", {
+  expect_silent(login <<- docu_login())
 })
 
 test_that("An actual account is returned", {
