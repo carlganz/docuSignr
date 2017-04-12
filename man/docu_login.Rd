@@ -18,3 +18,7 @@ docu_login(username = Sys.getenv("docuSign_username"),
 \description{
 Login to DocuSign and get baseURL and accountId
 }
+\examples{
+# assuming env variables are properly set up
+(login <- docu_login())
+}

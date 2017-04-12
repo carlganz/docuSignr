@@ -3,11 +3,14 @@
 #' Login to DocuSign and get baseURL and accountId
 #'
 #' @export
-#' @import httr jsonlite XML
+#' @import httr jsonlite
 #' @importFrom magrittr %>%
 #' @param username docuSign username
 #' @param password docuSign password
 #' @param integrator_key docusign integratorKey
+#' @examples 
+#' # assuming env variables are properly set up
+#' (login <- docu_login())
 
 docu_login <-
   function(username = Sys.getenv("docuSign_username"),
@@ -41,6 +44,18 @@ docu_login <-
 #' @param template_roles list of parameters passed to template
 #' @param email_subject docuSign emailSubject
 #' @param email_blurb docuSign emailBlurb
+#' @examples 
+#' # assuming env variables are properly set up
+#' login <- docu_login()
+#' (env <- docu_envelope(username = Sys.getenv("docuSign_username"),
+#'  password = Sys.getenv("docuSign_password"),
+#'  integrator_key = Sys.getenv("docuSign_integrator_key"),
+#'  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
+#'  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
+#'  template_roles = list(name = "Name", email = "email@example.com",
+#'                       roleName = "Role"),
+#'  email_subject = "Subject", email_blurb = "Body"
+#'  ))
 
 docu_envelope <-
   function(username = Sys.getenv("docuSign_username"),
@@ -99,7 +114,22 @@ docu_envelope <-
 #' @param signer_name Name of person signing document
 #' @param client_user_id ID for signer
 #' @param uri docuSign uri
-#'
+#' @examples 
+#' # assuming env variables are properly set up
+#' login <- docu_login()
+#' env <- docu_envelope(
+#'  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
+#'  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
+#'  template_roles = list(name = "Name", email = "email@example.com",
+#'                       roleName = "Role"),
+#'  email_subject = "Subject", email_blurb = "Body"
+#' )
+#' URL <- docu_embed(
+#'  base_url = login[1, "baseUrl"], return_url = "www.google.com",
+#'  signer_name = "Name", client_user_id = "1", 
+#'  uri = env$uri
+#' )
+#'  
 
 docu_embed <- function(username = Sys.getenv("docuSign_username"),
                        password = Sys.getenv("docuSign_password"),
