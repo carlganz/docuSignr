@@ -4,23 +4,23 @@ output: github_document
 
 [![Build Status](https://travis-ci.org/CannaData/docuSignr.svg?branch=master)](https://travis-ci.org/CannaData/docuSignr)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/CannaData/docuSignR?branch=master&svg=true)](https://ci.appveyor.com/project/CannaData/docuSignR)[![Coverage Status](https://img.shields.io/codecov/c/github/CannaData/docuSignr/master.svg)](https://codecov.io/github/CannaData/docuSignr?branch=master)
 
-# docuSignR
+# docuSignr
 
 [DocuSign](https://www.docusign.com/) is the leader in online document signing. They provide a REST API which allows for [embedded document](https://www.docusign.com/developer-center/recipes/signing-from-your-app) signing in several server-side languages, not currently including R. 
 
-The `docuSignR` package uses `httr` to embed DocuSign into Shiny applications. 
+The `docuSignr` package uses `httr` to embed DocuSign into Shiny applications. 
 
 # Installation
 
-`docuSignR` is only available on Github at the moment.
+`docuSignr` is only available on Github at the moment.
 
 ```{R, eval = FALSE}
-devtools::install_github("CannaData/docuSignR")
+devtools::install_github("CannaData/docuSignr")
 ```
 
 # Requirements
 
-For `docuSignR` to function you will need several things:
+For `docuSignr` to function you will need several things:
 
 - DocuSign account
 - DocuSign integrator key
