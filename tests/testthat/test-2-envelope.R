@@ -28,9 +28,9 @@ test_that("Embed doesn't error", {
   expect_silent(URL <<- docu_embed(
     base_url = login[1, 3],
     return_url = "www.google.com",
+    envelope_id = envelope$envelopeId,
     signer_name = "Carl",
-    client_user_id = "1",
-    uri = envelope$uri
+    client_user_id = "1"
   ))
 })
 

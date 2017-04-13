@@ -74,7 +74,7 @@ docu_envelope <-
     body <- 
       sprintf(
         '{"accountId": "%s",
-        "status" : "created",
+        "status" : "sent",
         "emailSubject" : "%s",
         "emailBlurb": "%s",
         "templateId": "%s",
@@ -111,9 +111,10 @@ docu_envelope <-
 #' @inheritParams docu_login
 #' @param base_url docuSign baseURL
 #' @param return_url URL to return to after signing
+#' @param envelope_id ID for envelope returned from \code{docu_envelope}
 #' @param signer_name Name of person signing document
 #' @param client_user_id ID for signer
-#' @param uri docuSign uri
+#' @param authentication_method Method application uses to authenticate user. Defaults to "None".
 #' @examples 
 #' # assuming env variables are properly set up
 #' login <- docu_login()
@@ -127,7 +128,7 @@ docu_envelope <-
 #' URL <- docu_embed(
 #'  base_url = login[1, "baseUrl"], return_url = "www.google.com",
 #'  signer_name = "Name", client_user_id = "1", 
-#'  uri = env$uri
+#'  envelope_id = env$envelopeId
 #' )
 #'  
 
@@ -136,15 +137,16 @@ docu_embed <- function(username = Sys.getenv("docuSign_username"),
                        integrator_key = Sys.getenv("docuSign_integrator_key"),
                        base_url,
                        return_url,
+                       envelope_id, 
                        signer_name,
                        client_user_id,
-                       uri) {
+                       authentication_method = "None") {
   # XML for authentication
   auth <- docu_auth(username, password, integrator_key)
   
   # request body
   body <- list(
-    authenticationMethod = "email",
+    authenticationMethod = authentication_method,
     email = username,
     returnUrl = return_url,
     userName = signer_name,
@@ -153,13 +155,45 @@ docu_embed <- function(username = Sys.getenv("docuSign_username"),
   
   header <- docu_header(auth)
   
-  url <- paste0(base_url, uri, "/views/sender")
+  url <- paste0(base_url, "/envelopes/", envelope_id, "/views/recipient")
   
   res <- httr::POST(url, header, body = body, encode = "json")
   
   parsed <- parse_response(res)
   
   parsed$url
+  
+}
+
+#' Download Document from DocuSign
+#' 
+#' @export
+#' @inheritParams docu_login
+#' @param base_url base_url
+#' @param envelope_id id of envelope
+#' 
+
+docu_download <- function(file, username = Sys.getenv("docuSign_username"),
+                          password = Sys.getenv("docuSign_password"),
+                          integrator_key = Sys.getenv("docuSign_integrator_key"),
+                          base_url,
+                          envelope_id) {
+  # XML for authentication
+  auth <- docu_auth(username, password, integrator_key)
+  
+  url <- paste0(base_url, 
+                "/envelopes/", 
+                envelope_id, 
+                "/documents/combined")
+  
+  header <- docu_header(auth)
+  
+  document <- httr::GET(url, header)
+  
+  writeBin(httr::content(document, as = "raw"), 
+           con = file)
+  
+  file
   
 }
 

@@ -7,7 +7,8 @@
 docu_embed(username = Sys.getenv("docuSign_username"),
   password = Sys.getenv("docuSign_password"),
   integrator_key = Sys.getenv("docuSign_integrator_key"), base_url,
-  return_url, signer_name, client_user_id, uri)
+  return_url, envelope_id, signer_name, client_user_id,
+  authentication_method = "None")
 }
 \arguments{
 \item{username}{docuSign username}
@@ -20,11 +21,13 @@ docu_embed(username = Sys.getenv("docuSign_username"),
 
 \item{return_url}{URL to return to after signing}
 
+\item{envelope_id}{ID for envelope returned from \code{docu_envelope}}
+
 \item{signer_name}{Name of person signing document}
 
 \item{client_user_id}{ID for signer}
 
-\item{uri}{docuSign uri}
+\item{authentication_method}{Method application uses to authenticate user. Defaults to "None".}
 }
 \description{
 Get URL for embedded docuSign
@@ -42,7 +45,7 @@ env <- docu_envelope(
 URL <- docu_embed(
  base_url = login[1, "baseUrl"], return_url = "www.google.com",
  signer_name = "Name", client_user_id = "1", 
- uri = env$uri
+ envelope_id = env$envelopeId
 )
  
 }
