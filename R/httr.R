@@ -9,8 +9,10 @@
 #' @param password docuSign password
 #' @param integrator_key docusign integratorKey
 #' @examples 
+#' \dontrun{
 #' # assuming env variables are properly set up
 #' (login <- docu_login())
+#' }
 
 docu_login <-
   function(username = Sys.getenv("docuSign_username"),
@@ -45,6 +47,7 @@ docu_login <-
 #' @param email_subject docuSign emailSubject
 #' @param email_blurb docuSign emailBlurb
 #' @examples 
+#' \dontrun{
 #' # assuming env variables are properly set up
 #' login <- docu_login()
 #' (env <- docu_envelope(username = Sys.getenv("docuSign_username"),
@@ -56,6 +59,7 @@ docu_login <-
 #'                       roleName = "Role", clientUserId = "1"),
 #'  email_subject = "Subject", email_blurb = "Body"
 #'  ))
+#'  }
 
 docu_envelope <-
   function(username = Sys.getenv("docuSign_username"),
@@ -119,6 +123,7 @@ docu_envelope <-
 #' @param client_user_id ID for signer
 #' @param authentication_method Method application uses to authenticate user. Defaults to "None".
 #' @examples 
+#' \dontrun{
 #' # assuming env variables are properly set up
 #' login <- docu_login()
 #' env <- docu_envelope(
@@ -130,11 +135,12 @@ docu_envelope <-
 #' )
 #' URL <- docu_embed(
 #'  base_url = login[1, "baseUrl"], return_url = "www.google.com",
-#'  signer_name = "Name", signer_email = "email@example.com, 
+#'  signer_name = "Name", signer_email = "email@example.com", 
 #'  client_user_id = "1", 
 #'  envelope_id = env$envelopeId
 #' )
-#'  
+#' }
+
 
 docu_embed <- function(username = Sys.getenv("docuSign_username"),
                        password = Sys.getenv("docuSign_password"),

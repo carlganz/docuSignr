@@ -19,6 +19,8 @@ docu_login(username = Sys.getenv("docuSign_username"),
 Login to DocuSign and get baseURL and accountId
 }
 \examples{
+\dontrun{
 # assuming env variables are properly set up
 (login <- docu_login())
+}
 }

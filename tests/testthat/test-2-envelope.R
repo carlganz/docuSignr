@@ -3,9 +3,9 @@ context("Test docuSign envelope and URL")
 
 template_id <- "e86ad42d-f935-4a95-8019-c9e2c902de15"
 
-login <- docu_login()
-
 test_that("Retrieve envelope without error", {
+  skip_on_cran()
+  login <<- docu_login()
   expect_silent(envelope <<- docu_envelope(
     account_id = login[1, 2],
     base_url = login[1, 3],
@@ -16,16 +16,18 @@ test_that("Retrieve envelope without error", {
       roleName = "Patient",
       clientUserId = "1"
     ),
-    email_subject = "blah",
-    email_blurb = "blah"
+    email_subject = "R-Test",
+    email_blurb = "R-Test"
   ))
 })
 
 test_that("envelopId is returned", {
+  skip_on_cran()
   expect_true(!is.null(envelope$envelopeId))
 })
 
 test_that("Embed doesn't error", {
+  skip_on_cran()
   expect_silent(URL <<- docu_embed(
     base_url = login[1, 3],
     return_url = "https://www.google.com",
@@ -37,5 +39,6 @@ test_that("Embed doesn't error", {
 })
 
 test_that("URL is legit", {
+  skip_on_cran()
   expect_true(!httr::http_error(URL))
 })

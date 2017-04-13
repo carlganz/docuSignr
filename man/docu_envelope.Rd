@@ -32,6 +32,7 @@ docu_envelope(username = Sys.getenv("docuSign_username"),
 Does envelope stuff
 }
 \examples{
+\dontrun{
 # assuming env variables are properly set up
 login <- docu_login()
 (env <- docu_envelope(username = Sys.getenv("docuSign_username"),
@@ -43,4 +44,5 @@ login <- docu_login()
                       roleName = "Role", clientUserId = "1"),
  email_subject = "Subject", email_blurb = "Body"
  ))
+ }
 }
