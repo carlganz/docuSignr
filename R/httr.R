@@ -53,7 +53,7 @@ docu_login <-
 #'  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
 #'  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
 #'  template_roles = list(name = "Name", email = "email@example.com",
-#'                       roleName = "Role"),
+#'                       roleName = "Role", clientUserId = "1"),
 #'  email_subject = "Subject", email_blurb = "Body"
 #'  ))
 
@@ -81,14 +81,16 @@ docu_envelope <-
         "templateRoles": [{
           "email" : "%s",
           "name": "%s",
-          "roleName": "%s" }] }',
+          "roleName": "%s",
+          "clientUserId": "%s" }] }',
         account_id,
         email_subject,
         email_blurb,
         template_id,
         template_roles$email,
         template_roles$name,
-        template_roles$roleName
+        template_roles$roleName,
+        template_roles$clientUserId
       )
     
     url <- paste0(base_url, "/envelopes")
@@ -113,6 +115,7 @@ docu_envelope <-
 #' @param return_url URL to return to after signing
 #' @param envelope_id ID for envelope returned from \code{docu_envelope}
 #' @param signer_name Name of person signing document
+#' @param signer_email Email of person signing document
 #' @param client_user_id ID for signer
 #' @param authentication_method Method application uses to authenticate user. Defaults to "None".
 #' @examples 
@@ -122,12 +125,13 @@ docu_envelope <-
 #'  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
 #'  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
 #'  template_roles = list(name = "Name", email = "email@example.com",
-#'                       roleName = "Role"),
+#'                       roleName = "Patient", clientUserId = "1"),
 #'  email_subject = "Subject", email_blurb = "Body"
 #' )
 #' URL <- docu_embed(
 #'  base_url = login[1, "baseUrl"], return_url = "www.google.com",
-#'  signer_name = "Name", client_user_id = "1", 
+#'  signer_name = "Name", signer_email = "email@example.com, 
+#'  client_user_id = "1", 
 #'  envelope_id = env$envelopeId
 #' )
 #'  
@@ -139,6 +143,7 @@ docu_embed <- function(username = Sys.getenv("docuSign_username"),
                        return_url,
                        envelope_id, 
                        signer_name,
+                       signer_email,
                        client_user_id,
                        authentication_method = "None") {
   # XML for authentication
@@ -147,10 +152,10 @@ docu_embed <- function(username = Sys.getenv("docuSign_username"),
   # request body
   body <- list(
     authenticationMethod = authentication_method,
-    email = username,
+    email = signer_email,
     returnUrl = return_url,
     userName = signer_name,
-    clietUserId = client_user_id
+    clientUserId = client_user_id
   )
   
   header <- docu_header(auth)
