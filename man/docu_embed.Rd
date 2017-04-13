@@ -7,7 +7,7 @@
 docu_embed(username = Sys.getenv("docuSign_username"),
   password = Sys.getenv("docuSign_password"),
   integrator_key = Sys.getenv("docuSign_integrator_key"), base_url,
-  return_url, envelope_id, signer_name, client_user_id,
+  return_url, envelope_id, signer_name, signer_email, client_user_id,
   authentication_method = "None")
 }
 \arguments{
@@ -25,27 +25,12 @@ docu_embed(username = Sys.getenv("docuSign_username"),
 
 \item{signer_name}{Name of person signing document}
 
+\item{signer_email}{Email of person signing document}
+
 \item{client_user_id}{ID for signer}
 
 \item{authentication_method}{Method application uses to authenticate user. Defaults to "None".}
 }
 \description{
 Get URL for embedded docuSign
-}
-\examples{
-# assuming env variables are properly set up
-login <- docu_login()
-env <- docu_envelope(
- account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
- template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
- template_roles = list(name = "Name", email = "email@example.com",
-                      roleName = "Role"),
- email_subject = "Subject", email_blurb = "Body"
-)
-URL <- docu_embed(
- base_url = login[1, "baseUrl"], return_url = "www.google.com",
- signer_name = "Name", client_user_id = "1", 
- envelope_id = env$envelopeId
-)
- 
 }

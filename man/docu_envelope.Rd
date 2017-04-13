@@ -40,7 +40,7 @@ login <- docu_login()
  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
  template_roles = list(name = "Name", email = "email@example.com",
-                      roleName = "Role"),
+                      roleName = "Role", clientUserId = "1"),
  email_subject = "Subject", email_blurb = "Body"
  ))
 }
