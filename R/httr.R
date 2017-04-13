@@ -41,6 +41,7 @@ docu_login <-
 #' @export
 #' @inheritParams docu_login
 #' @param account_id docuSign accountId
+#' @param status envelope status
 #' @param base_url docuSign baseURL
 #' @param template_id docuSign templateId
 #' @param template_roles list of parameters passed to template
@@ -66,6 +67,7 @@ docu_envelope <-
            password = Sys.getenv("docuSign_password"),
            integrator_key = Sys.getenv("docuSign_integrator_key"),
            account_id,
+           status = "sent",
            base_url,
            template_id,
            template_roles,
@@ -75,10 +77,11 @@ docu_envelope <-
     auth <- docu_auth(username, password, integrator_key)
     
     # request body
-    body <- 
-      sprintf(
-        '{"accountId": "%s",
-        "status" : "sent",
+    if (!is.null(template_roles$clientUserId)) {
+      body <- 
+        sprintf(
+          '{"accountId": "%s",
+        "status" : "%s",
         "emailSubject" : "%s",
         "emailBlurb": "%s",
         "templateId": "%s",
@@ -87,15 +90,38 @@ docu_envelope <-
           "name": "%s",
           "roleName": "%s",
           "clientUserId": "%s" }] }',
-        account_id,
-        email_subject,
-        email_blurb,
-        template_id,
-        template_roles$email,
-        template_roles$name,
-        template_roles$roleName,
-        template_roles$clientUserId
-      )
+          account_id,
+          status,
+          email_subject,
+          email_blurb,
+          template_id,
+          template_roles$email,
+          template_roles$name,
+          template_roles$roleName,
+          template_roles$clientUserId
+        )
+    } else {
+      body <- 
+        sprintf(
+          '{"accountId": "%s",
+        "status" : "%s",
+        "emailSubject" : "%s",
+        "emailBlurb": "%s",
+        "templateId": "%s",
+        "templateRoles": [{
+          "email" : "%s",
+          "name": "%s",
+          "roleName": "%s" }] }',
+          account_id,
+          status,
+          email_subject,
+          email_blurb,
+          template_id,
+          template_roles$email,
+          template_roles$name,
+          template_roles$roleName
+        )
+    }
     
     url <- paste0(base_url, "/envelopes")
     
@@ -142,7 +168,7 @@ docu_envelope <-
 #' }
 
 
-docu_embed <- function(username = Sys.getenv("docuSign_username"),
+docu_embedded_sign <- function(username = Sys.getenv("docuSign_username"),
                        password = Sys.getenv("docuSign_password"),
                        integrator_key = Sys.getenv("docuSign_integrator_key"),
                        base_url,
@@ -167,6 +193,45 @@ docu_embed <- function(username = Sys.getenv("docuSign_username"),
   header <- docu_header(auth)
   
   url <- paste0(base_url, "/envelopes/", envelope_id, "/views/recipient")
+  
+  res <- httr::POST(url, header, body = body, encode = "json")
+  
+  parsed <- parse_response(res)
+  
+  parsed$url
+  
+}
+
+#' @rdname docu_embedded_sign
+#' @inheritParams docu_embedded_sign
+#' @param uri uri path
+#' @export
+
+docu_embedded_send <- function(username = Sys.getenv("docuSign_username"),
+                               password = Sys.getenv("docuSign_password"),
+                               integrator_key = Sys.getenv("docuSign_integrator_key"),
+                               base_url,
+                               return_url,
+                               uri, 
+                               signer_name,
+                               signer_email,
+                               client_user_id,
+                               authentication_method = "None") {
+  # XML for authentication
+  auth <- docu_auth(username, password, integrator_key)
+  
+  # request body
+  body <- list(
+    authenticationMethod = authentication_method,
+    email = signer_email,
+    returnUrl = return_url,
+    userName = signer_name,
+    clientUserId = client_user_id
+  )
+  
+  header <- docu_header(auth)
+  
+  url <- paste0(base_url, uri, "/views/sender")
   
   res <- httr::POST(url, header, body = body, encode = "json")
   

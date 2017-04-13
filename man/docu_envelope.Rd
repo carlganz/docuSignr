@@ -7,7 +7,8 @@
 docu_envelope(username = Sys.getenv("docuSign_username"),
   password = Sys.getenv("docuSign_password"),
   integrator_key = Sys.getenv("docuSign_integrator_key"), account_id,
-  base_url, template_id, template_roles, email_subject, email_blurb)
+  status = "sent", base_url, template_id, template_roles, email_subject,
+  email_blurb)
 }
 \arguments{
 \item{username}{docuSign username}
@@ -17,6 +18,8 @@ docu_envelope(username = Sys.getenv("docuSign_username"),
 \item{integrator_key}{docusign integratorKey}
 
 \item{account_id}{docuSign accountId}
+
+\item{status}{envelope status}
 
 \item{base_url}{docuSign baseURL}
 
