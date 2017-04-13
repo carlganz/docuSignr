@@ -10,6 +10,8 @@ docu_download(file, username = Sys.getenv("docuSign_username"),
   envelope_id)
 }
 \arguments{
+\item{file}{a character string naming a file}
+
 \item{username}{docuSign username}
 
 \item{password}{docuSign password}

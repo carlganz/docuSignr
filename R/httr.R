@@ -169,6 +169,7 @@ docu_embed <- function(username = Sys.getenv("docuSign_username"),
 #' 
 #' @export
 #' @inheritParams docu_login
+#' @param file a character string naming a file
 #' @param base_url base_url
 #' @param envelope_id id of envelope
 #' 
