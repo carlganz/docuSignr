@@ -44,22 +44,36 @@ Example
 ``` r
 library(docuSignr)
 # login to get baseURL and accountID
-login <- docu_login(username = Sys.getenv("docuSign_username"), password = Sys.getenv("docuSign_password"), 
-    integrator_key = Sys.getenv("docuSign_integrator_key"))
+login <- docu_login()
+# choose template
+template_id <- "e86ad42d-f935-4a95-8019-c9e2c902de15"
+# create envelope
+envelope <- docu_envelope(
+  account_id = login[1, "accountId"],
+  base_url = login[1, "baseUrl"],
+  template_id = template_id,
+  template_roles = list(
+    email = "example@example.com",
+    name = "R-Test",
+    roleName = "Patient",
+    clientUserId = "1"
+  ),
+  email_subject = "R-Test",
+  email_blurb = "R-Test"
+)
 
-# get envelope
-env <- docu_envelope(username = Sys.getenv("docuSign_username"), password = Sys.getenv("docuSign_password"), 
-    integrator_key = Sys.getenv("docuSign_integrator_key"), account_id = login[1, 
-        "accountId"], base_url = login[1, "baseUrl"], template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15", 
-    template_roles = list(name = "Name", email = "email@example.com", roleName = "Role"), 
-    email_subject = "Subject", email_blurb = "Body")
+# get URL
+URL <- docu_embed(
+  base_url = login[1, "baseUrl"],
+  return_url = "https://www.google.com",
+  envelope_id = envelope$envelopeId,
+  # info here must be consistent with info in template_roles above
+  signer_name = "R-Test",
+  signer_email = "example@example.com",
+  client_user_id = "1"
+)
 
-# get URL to pass user to
-URL <- docu_embed(username = Sys.getenv("docuSign_username"), password = Sys.getenv("docuSign_password"), 
-    integrator_key = Sys.getenv("docuSign_integrator_key"), base_url = login[1, 
-        "baseUrl"], return_url = "URL/of/Shiny/App", signer_name = "Name", client_user_id = "1", 
-    uri = env$uri)
-
+# sign document
 browseURL(URL)
 ```
 
