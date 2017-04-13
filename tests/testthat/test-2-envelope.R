@@ -12,24 +12,26 @@ test_that("Retrieve envelope without error", {
     template_id = template_id,
     template_roles = list(
       email = "carl@cannadatasolutions.com",
-      name = "Carl",
-      roleName = "Patient"
+      name = "R-Test",
+      roleName = "Patient",
+      clientUserId = "1"
     ),
     email_subject = "blah",
     email_blurb = "blah"
   ))
 })
 
-test_that("URI is returned", {
-  expect_true(!is.null(envelope$uri))
+test_that("envelopId is returned", {
+  expect_true(!is.null(envelope$envelopeId))
 })
 
 test_that("Embed doesn't error", {
   expect_silent(URL <<- docu_embed(
     base_url = login[1, 3],
-    return_url = "www.google.com",
+    return_url = "https://www.google.com",
     envelope_id = envelope$envelopeId,
-    signer_name = "Carl",
+    signer_name = "R-Test",
+    signer_email = "carl@cannadatasolutions.com",
     client_user_id = "1"
   ))
 })
