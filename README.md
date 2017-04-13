@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/CannaData/docuSignr.svg?branch=master)](https://travis-ci.org/CannaData/docuSignr)[![Coverage Status](https://img.shields.io/codecov/c/github/CannaData/docuSignr/master.svg)](https://codecov.io/github/CannaData/docuSignr?branch=master)
+[![Build Status](https://travis-ci.org/CannaData/docuSignr.svg?branch=master)](https://travis-ci.org/CannaData/docuSignr)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/CannaData/docuSignR?branch=master&svg=true)](https://ci.appveyor.com/project/CannaData/docuSignR)[![Coverage Status](https://img.shields.io/codecov/c/github/CannaData/docuSignr/master.svg)](https://codecov.io/github/CannaData/docuSignr?branch=master)
 
 docuSignR
 =========
