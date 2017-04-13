@@ -40,3 +40,13 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+environment:
+  GITHUB_PAT:
+    secure: Zdu+XV+DvPEzUyw+7o0AjzmOqvNAV8drbQrJr/kZ2+ZnzR80CQ5xz4FMLSEdllEq
+  docuSign_username:
+    secure: KUq95zYgr6zn5WuzdIdjXUk62cDeTB5q5K/+27pnHxQ=
+  docuSign_password:
+    secure: uSOKSOqjTYqVMJSuA1mWRQ==
+  docuSign_integrator_key:
+    secure: Rx7t1EBD6Oz+RY2i8hHJZF3Gh6RkzCf8x0RWgDkAp/9jDZKoMLAR7LUbtqi89xlY
