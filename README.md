@@ -11,9 +11,12 @@ The `docuSignr` package uses `httr` to embed DocuSign into Shiny applications.
 Installation
 ============
 
-`docuSignr` is only available on Github at the moment.
+`docuSignr` is available on CRAN and Github.
 
 ``` r
+# from CRAN
+install.packages("docuSignr")
+# from Github
 devtools::install_github("CannaData/docuSignr")
 ```
 
