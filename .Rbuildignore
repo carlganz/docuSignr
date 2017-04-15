@@ -8,3 +8,4 @@
 ^CONDUCT\.md$
 ^CONTRIBUTING\.md$
 ^appveyor\.yml$
+^cran-comments\.md$

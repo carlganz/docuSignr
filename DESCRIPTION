@@ -1,12 +1,12 @@
 Package: docuSignr
 Title: Connect to 'DocuSign' API
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: c(
   person("Carl", "Ganz", email = "carl@cannadatasolutions.com", role = c("aut", "cre")),
   person("CannaData Solutions", role = "cph")
   )
-Description: Connect to the 'DocuSign' API, which allows users to legally sign documents.
-  Also provides 'Shiny' integration.
+Description: Connect to the 'DocuSign' Rest API <https://www.docusign.com/p/RESTAPIGuide/RESTAPIGuide.htm>, 
+  which supports embedded signing, and sending of documents. 
 Depends: R (>= 3.2.2)
 License: GPL-3
 Encoding: UTF-8
@@ -15,3 +15,5 @@ Imports: httr, jsonlite, magrittr
 RoxygenNote: 6.0.1
 Suggests: testthat,
     covr
+URL: https://github.com/CannaData/docuSignr
+BugReports: https://github.com/CannaData/docuSignr/issues
