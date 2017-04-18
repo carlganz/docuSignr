@@ -47,13 +47,16 @@ Get URL for embedded docuSign
 \dontrun{
 # assuming env variables are properly set up
 login <- docu_login()
-env <- docu_envelope(
+template <- docu_templates(base_url = login[1, "baseUrl"])
+env <- docu_envelope(username = Sys.getenv("docuSign_username"),
+ password = Sys.getenv("docuSign_password"),
+ integrator_key = Sys.getenv("docuSign_integrator_key"),
  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
- template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
+ template_id = template$templateId,
  template_roles = list(name = "Name", email = "email@example.com",
-                      roleName = "Patient", clientUserId = "1"),
+                      roleName = "Role", clientUserId = "1"),
  email_subject = "Subject", email_blurb = "Body"
-)
+ )
 URL <- docu_embed(
  base_url = login[1, "baseUrl"], return_url = "www.google.com",
  signer_name = "Name", signer_email = "email@example.com", 

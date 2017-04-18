@@ -1,3 +1,17 @@
+# Copyright (c) 2017 CannaData Solutions.
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, version 3.
+# 
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Lesser Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 #' Authenticate DocuSign
 #'
 #' Login to DocuSign and get baseURL and accountId
@@ -51,11 +65,12 @@ docu_login <-
 #' \dontrun{
 #' # assuming env variables are properly set up
 #' login <- docu_login()
+#' template <- docu_templates(base_url = login[1, "baseUrl"])
 #' (env <- docu_envelope(username = Sys.getenv("docuSign_username"),
 #'  password = Sys.getenv("docuSign_password"),
 #'  integrator_key = Sys.getenv("docuSign_integrator_key"),
 #'  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
-#'  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
+#'  template_id = template$templateId,
 #'  template_roles = list(name = "Name", email = "email@example.com",
 #'                       roleName = "Role", clientUserId = "1"),
 #'  email_subject = "Subject", email_blurb = "Body"
@@ -152,13 +167,16 @@ docu_envelope <-
 #' \dontrun{
 #' # assuming env variables are properly set up
 #' login <- docu_login()
-#' env <- docu_envelope(
+#' template <- docu_templates(base_url = login[1, "baseUrl"])
+#' env <- docu_envelope(username = Sys.getenv("docuSign_username"),
+#'  password = Sys.getenv("docuSign_password"),
+#'  integrator_key = Sys.getenv("docuSign_integrator_key"),
 #'  account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
-#'  template_id = "e86ad42d-f935-4a95-8019-c9e2c902de15",
+#'  template_id = template$templateId,
 #'  template_roles = list(name = "Name", email = "email@example.com",
-#'                       roleName = "Patient", clientUserId = "1"),
+#'                       roleName = "Role", clientUserId = "1"),
 #'  email_subject = "Subject", email_blurb = "Body"
-#' )
+#'  )
 #' URL <- docu_embed(
 #'  base_url = login[1, "baseUrl"], return_url = "www.google.com",
 #'  signer_name = "Name", signer_email = "email@example.com", 
@@ -238,6 +256,38 @@ docu_embedded_send <- function(username = Sys.getenv("docuSign_username"),
   parsed <- parse_response(res)
   
   parsed$url
+  
+}
+
+#' View templates
+#' 
+#' See all templates associated with account
+#' 
+#' @inheritParams docu_login
+#' @param base_url docuSign baseURL
+#' @export
+#' @examples
+#' \dontrun{
+#' login <- docu_login()
+#' templates <- docu_templates(base_url = login[1, 3])
+#' }
+
+docu_templates <- function(username = Sys.getenv("docuSign_username"),
+                           password = Sys.getenv("docuSign_password"),
+                           integrator_key = Sys.getenv("docuSign_integrator_key"),
+                           base_url) {
+  # XML for authentication
+  auth <- docu_auth(username, password, integrator_key)
+  
+  url <- paste0(base_url, "/templates")
+  
+  header <- docu_header(auth)
+  
+  res <- httr::GET(url, header)
+  
+  parsed <- parse_response(res)
+  
+  parsed$envelopeTemplates
   
 }
 

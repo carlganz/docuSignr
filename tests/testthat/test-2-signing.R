@@ -1,11 +1,9 @@
 context("Test docuSign envelope and URL for signing")
 
-
-template_id <- "e86ad42d-f935-4a95-8019-c9e2c902de15"
-
 test_that("Retrieve envelope without error for signing", {
   skip_on_cran()
   login <<- docu_login()
+  template_id <<- docu_templates(base_url = login[1, 3])$templateId
   expect_silent(envelope <<- docu_envelope(
     account_id = login[1, 2],
     base_url = login[1, 3],
@@ -42,3 +40,4 @@ test_that("URL is legit", {
   skip_on_cran()
   expect_true(!httr::http_error(URL))
 })
+
