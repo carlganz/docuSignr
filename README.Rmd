@@ -46,13 +46,13 @@ Sys.setenv("docuSign_integrator_key" = "integrator_key")
 library(docuSignr)
 # login to get baseURL and accountID
 login <- docu_login()
-# choose template
-template_id <- "e86ad42d-f935-4a95-8019-c9e2c902de15"
+# load templates
+templates <- docu_templates(base_url = login[1, "baseUrl"])
 # create envelope
 envelope <- docu_envelope(
   account_id = login[1, "accountId"],
   base_url = login[1, "baseUrl"],
-  template_id = template_id,
+  template_id = templates[1, "templateId"],
   template_roles = list(
     email = "example@example.com",
     name = "R-Test",
