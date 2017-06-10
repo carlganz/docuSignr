@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/CannaData/docuSignr.svg?branch=master)](https://travis-ci.org/CannaData/docuSignr)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/CannaData/docuSignR?branch=master&svg=true)](https://ci.appveyor.com/project/CannaData/docuSignR)[![Coverage Status](https://img.shields.io/codecov/c/github/CannaData/docuSignr/master.svg)](https://codecov.io/github/CannaData/docuSignr?branch=master)
+[![Build Status](https://travis-ci.org/CannaData/docuSignr.svg?branch=master)](https://travis-ci.org/CannaData/docuSignr)[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/CannaData/docuSignR?branch=master&svg=true)](https://ci.appveyor.com/project/CannaData/docuSignR)
 
 docuSignr
 =========
@@ -36,9 +36,9 @@ Set-Up
 It is recommended that you set the DocuSign username, password, and integrator key as environmental variables idealy in your .Rprofile.
 
 ``` r
-Sys.setenv(docuSign_username = "username")
-Sys.setenv(docuSign_password = "password")
-Sys.setenv(docuSign_integrator_key = "integrator_key")
+Sys.setenv("docuSign_username" = "username")
+Sys.setenv("docuSign_password" = "password")
+Sys.setenv("docuSign_integrator_key" = "integrator_key")
 ```
 
 Example
