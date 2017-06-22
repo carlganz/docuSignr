@@ -22,6 +22,7 @@
 #' @param username docuSign username
 #' @param password docuSign password
 #' @param integrator_key docusign integratorKey
+#' @param demo indicate whether to use DocuSign demo server
 #' @examples 
 #' \dontrun{
 #' # assuming env variables are properly set up
@@ -31,11 +32,15 @@
 docu_login <-
   function(username = Sys.getenv("docuSign_username"),
            password = Sys.getenv("docuSign_password"),
-           integrator_key = Sys.getenv("docuSign_integrator_key")) {
+           integrator_key = Sys.getenv("docuSign_integrator_key"),
+           demo = FALSE) {
     # XML for authentication
     auth <- docu_auth(username, password, integrator_key)
     
-    url <- 'https://demo.docusign.net/restapi/v2/login_information'
+    url <- paste0(
+      'https://', if (demo) 'demo'  else 'www', 
+      '.docusign.net/restapi/v2/login_information'
+    )
     
     header <- docu_header(auth)
     
