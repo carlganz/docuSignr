@@ -51,7 +51,7 @@ template <- docu_templates(base_url = login[1, "baseUrl"])
 env <- docu_envelope(username = Sys.getenv("docuSign_username"),
  password = Sys.getenv("docuSign_password"),
  integrator_key = Sys.getenv("docuSign_integrator_key"),
- account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
+ account_id = login[1, "accountId"], base_url = login[1, "baseUrl"],
  template_id = template$templateId,
  template_roles = list(name = "Name", email = "email@example.com",
                       roleName = "Role", clientUserId = "1"),
@@ -59,8 +59,8 @@ env <- docu_envelope(username = Sys.getenv("docuSign_username"),
  )
 URL <- docu_embed(
  base_url = login[1, "baseUrl"], return_url = "www.google.com",
- signer_name = "Name", signer_email = "email@example.com", 
- client_user_id = "1", 
+ signer_name = "Name", signer_email = "email@example.com",
+ client_user_id = "1",
  envelope_id = env$envelopeId
 )
 }

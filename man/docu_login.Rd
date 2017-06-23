@@ -6,7 +6,7 @@
 \usage{
 docu_login(username = Sys.getenv("docuSign_username"),
   password = Sys.getenv("docuSign_password"),
-  integrator_key = Sys.getenv("docuSign_integrator_key"))
+  integrator_key = Sys.getenv("docuSign_integrator_key"), demo = FALSE)
 }
 \arguments{
 \item{username}{docuSign username}
@@ -14,6 +14,8 @@ docu_login(username = Sys.getenv("docuSign_username"),
 \item{password}{docuSign password}
 
 \item{integrator_key}{docusign integratorKey}
+
+\item{demo}{indicate whether to use DocuSign demo server}
 }
 \description{
 Login to DocuSign and get baseURL and accountId

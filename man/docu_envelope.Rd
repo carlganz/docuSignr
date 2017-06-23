@@ -42,7 +42,7 @@ template <- docu_templates(base_url = login[1, "baseUrl"])
 (env <- docu_envelope(username = Sys.getenv("docuSign_username"),
  password = Sys.getenv("docuSign_password"),
  integrator_key = Sys.getenv("docuSign_integrator_key"),
- account_id = login[1, "accountId"], base_url = login[1, "baseUrl"], 
+ account_id = login[1, "accountId"], base_url = login[1, "baseUrl"],
  template_id = template$templateId,
  template_roles = list(name = "Name", email = "email@example.com",
                       roleName = "Role", clientUserId = "1"),
