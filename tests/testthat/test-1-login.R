@@ -9,7 +9,7 @@ test_that("Environmental vars exist", {
 
 test_that("Login works doesn't error", {
   skip_on_cran()
-  expect_silent(login <<- docu_login())
+  expect_silent(login <<- docu_login(demo = TRUE))
 })
 
 test_that("An actual account is returned", {

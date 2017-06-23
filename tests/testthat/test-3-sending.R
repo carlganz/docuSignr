@@ -2,7 +2,7 @@ context("Test docuSign envelope and URL for sending")
 
 test_that("Retrieve envelope without error for signing", {
   skip_on_cran()
-  login <<- docu_login()
+  login <<- docu_login(demo = TRUE)
   template_id <<- docu_templates(base_url = login[1, 3])$templateId
   expect_silent(envelope <<- docu_envelope(
     account_id = login[1, 2],
