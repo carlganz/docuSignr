@@ -1,6 +1,6 @@
 Package: docuSignr
 Title: Connect to 'DocuSign' API
-Version: 0.0.2
+Version: 0.0.2.900
 Authors@R: c(
   person("Carl", "Ganz", email = "carl@cannadatasolutions.com", role = c("aut", "cre")),
   person("CannaData Solutions", role = "cph")
