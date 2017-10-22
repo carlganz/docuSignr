@@ -9,10 +9,12 @@ test_that("Environmental vars exist", {
 
 test_that("Login works doesn't error", {
   skip_on_cran()
+  skip_if_not(nchar(Sys.getenv("docuSign_integrator_key")) > 0)
   expect_silent(login <<- docu_login(demo = TRUE))
 })
 
 test_that("An actual account is returned", {
   skip_on_cran()
+  skip_if_not(nchar(Sys.getenv("docuSign_integrator_key")) > 0)
   expect_true(nrow(login)>0)
 })

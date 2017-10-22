@@ -2,6 +2,7 @@ context("Test docuSign envelope and URL for signing")
 
 test_that("Retrieve envelope without error for signing", {
   skip_on_cran()
+  skip_if_not(nchar(Sys.getenv("docuSign_integrator_key")) > 0)
   login <<- docu_login(demo = TRUE)
   template_id <<- docu_templates(base_url = login[1, 3])$templateId
   expect_silent(envelope <<- docu_envelope(
@@ -21,11 +22,13 @@ test_that("Retrieve envelope without error for signing", {
 
 test_that("envelopId is returned", {
   skip_on_cran()
+  skip_if_not(nchar(Sys.getenv("docuSign_integrator_key")) > 0)
   expect_true(!is.null(envelope$envelopeId))
 })
 
 test_that("Embed doesn't error", {
   skip_on_cran()
+  skip_if_not(nchar(Sys.getenv("docuSign_integrator_key")) > 0)
   expect_silent(URL <<- docu_embedded_sign(
     base_url = login[1, 3],
     return_url = "https://www.google.com",
@@ -37,7 +40,8 @@ test_that("Embed doesn't error", {
 })
 
 test_that("URL is legit", {
-  # skip_on_cran()
+  skip_on_cran()
+  skip_if_not(nchar(Sys.getenv("docuSign_integrator_key")) > 0)
   expect_true(!httr::http_error(URL))
 })
 
