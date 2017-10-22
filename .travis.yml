@@ -17,6 +17,6 @@ matrix:
       compiler: clang
 
 after_success:
-  - Rscript -e 'covr::codecov()'
-  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
+- Rscript -e 'covr::codecov()'
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
   deploy.sh
