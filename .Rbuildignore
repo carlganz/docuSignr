@@ -9,3 +9,4 @@
 ^CONTRIBUTING\.md$
 ^appveyor\.yml$
 ^cran-comments\.md$
+^deploy\.sh$

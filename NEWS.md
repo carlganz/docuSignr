@@ -1,4 +1,4 @@
-# docuSignr 0.0.2.900
+# docuSignr 0.0.3
 
 * Added `demo` parameter to `docu_login`, which indicates whether to use the DocuSign demo API.
 
