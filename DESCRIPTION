@@ -12,7 +12,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: httr, jsonlite, magrittr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests: testthat,
     covr, drat
 URL: https://github.com/CannaData/docuSignr

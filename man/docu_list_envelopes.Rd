@@ -6,7 +6,8 @@
 \usage{
 docu_list_envelopes(username = Sys.getenv("docuSign_username"),
   password = Sys.getenv("docuSign_password"),
-  integrator_key = Sys.getenv("docuSign_integrator_key"), base_url, from_date)
+  integrator_key = Sys.getenv("docuSign_integrator_key"), base_url,
+  from_date)
 }
 \arguments{
 \item{username}{docuSign username}
